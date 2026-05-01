@@ -1,7 +1,11 @@
 package core.basesyntax.db;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import core.basesyntax.basesyntax.db.Storage;
 import core.basesyntax.basesyntax.db.StorageImpl;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class StorageImplTest {
@@ -12,25 +16,34 @@ class StorageImplTest {
     private static final int QUANTITY_15 = 15;
     private static final int QUANTITY_20 = 20;
 
+    private static Storage storage;
+
+    @BeforeAll
+    static void setUp() {
+        storage = new StorageImpl();
+    }
+
+    @AfterEach
+    void tearDown() {
+        storage.clear();
+    }
+
     @Test
     void getQuantity_defaultZero_ok() {
-        StorageImpl storage = new StorageImpl();
-        Assertions.assertEquals(QUANTITY_0, storage.getQuantity(FRUIT_APPLE));
+        assertEquals(QUANTITY_0, storage.getQuantity(FRUIT_APPLE));
     }
 
     @Test
     void setAndGetQuantity_ok() {
-        StorageImpl storage = new StorageImpl();
         storage.setQuantity(FRUIT_APPLE, QUANTITY_15);
-        Assertions.assertEquals(QUANTITY_15, storage.getQuantity(FRUIT_APPLE));
+        assertEquals(QUANTITY_15, storage.getQuantity(FRUIT_APPLE));
     }
 
     @Test
     void setQuantity_overwriteQuantity_ok() {
-        StorageImpl storage = new StorageImpl();
         storage.setQuantity(FRUIT_BANANA, QUANTITY_10);
         storage.setQuantity(FRUIT_BANANA, QUANTITY_20);
 
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_BANANA));
+        assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_BANANA));
     }
 }

@@ -1,5 +1,8 @@
 package core.basesyntax.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.basesyntax.db.StorageImpl;
 import core.basesyntax.basesyntax.model.FruitTransaction;
 import core.basesyntax.basesyntax.service.OperationHandlerProvider;
@@ -13,7 +16,7 @@ import core.basesyntax.basesyntax.strategy.ReturnOperation;
 import core.basesyntax.basesyntax.strategy.SupplyOperation;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ShopServiceImplTest {
@@ -30,22 +33,23 @@ class ShopServiceImplTest {
     private static final int QUANTITY_18 = 18;
     private static final int QUANTITY_20 = 20;
 
-    private ShopService createService() {
+    private ShopService service;
+
+    @BeforeEach
+    void setUp() {
         Map<FruitTransaction.Operation, OperationHandler> handlers = Map.of(
                 FruitTransaction.Operation.BALANCE, new BalanceOperation(),
                 FruitTransaction.Operation.SUPPLY, new SupplyOperation(),
                 FruitTransaction.Operation.PURCHASE, new PurchaseOperation(),
                 FruitTransaction.Operation.RETURN, new ReturnOperation()
-        );
+            );
         OperationHandlerProvider provider = new OperationHandlerProviderImpl(handlers);
         StorageImpl storage = new StorageImpl();
-        return new ShopServiceImpl(provider, storage);
+        service = new ShopServiceImpl(provider, storage);
     }
 
     @Test
     void process_validScenario_ok() {
-        ShopService service = createService();
-
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE,
                         FRUIT_APPLE, QUANTITY_5),
@@ -57,13 +61,11 @@ class ShopServiceImplTest {
                         FRUIT_APPLE, QUANTITY_2)
         );
         StorageImpl result = service.process(transactions);
-        Assertions.assertEquals(QUANTITY_18, result.getQuantity(FRUIT_APPLE));
+        assertEquals(QUANTITY_18, result.getQuantity(FRUIT_APPLE));
     }
 
     @Test
     void process_multipleFruits_ok() {
-        ShopService service = createService();
-
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE,
                         FRUIT_ORANGE, QUANTITY_10),
@@ -73,26 +75,24 @@ class ShopServiceImplTest {
                         FRUIT_BANANA, QUANTITY_10)
         );
         StorageImpl result = service.process(transactions);
-        Assertions.assertEquals(QUANTITY_10, result.getQuantity(FRUIT_ORANGE));
-        Assertions.assertEquals(QUANTITY_10, result.getQuantity(FRUIT_BANANA));
+        assertEquals(QUANTITY_10, result.getQuantity(FRUIT_ORANGE));
+        assertEquals(QUANTITY_10, result.getQuantity(FRUIT_BANANA));
     }
 
     @Test
     void process_notEnoughStock_notOk() {
-        ShopService service = createService();
-
         List<FruitTransaction> transactions = List.of(
                 new FruitTransaction(FruitTransaction.Operation.BALANCE,
                         FRUIT_GRAPES, QUANTITY_3),
                 new FruitTransaction(FruitTransaction.Operation.PURCHASE,
                         FRUIT_GRAPES, QUANTITY_5)
         );
-        Assertions.assertThrows(RuntimeException.class, () -> service.process(transactions));
+        assertThrows(RuntimeException.class, () -> service.process(transactions));
     }
 
     @Test
     void process_nullTransactions_notOK() {
-        ShopService service = createService();
-        Assertions.assertThrows(RuntimeException.class, () -> service.process(null));
+        assertThrows(RuntimeException.class,
+                () -> service.process(null));
     }
 }

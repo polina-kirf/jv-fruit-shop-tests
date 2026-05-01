@@ -1,10 +1,11 @@
 package core.basesyntax.strategy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import core.basesyntax.basesyntax.db.StorageImpl;
 import core.basesyntax.basesyntax.strategy.OperationHandler;
 import core.basesyntax.basesyntax.strategy.ReturnOperation;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReturnOperationTest {
@@ -16,10 +17,11 @@ class ReturnOperationTest {
     private static final int QUANTITY_15 = 15;
     private static final int QUANTITY_20 = 20;
     private static final int QUANTITY_25 = 25;
-    private static OperationHandler operation;
 
-    @BeforeAll
-    static void setUp() {
+    private OperationHandler operation;
+
+    @BeforeEach
+    void setUp() {
         operation = new ReturnOperation();
     }
 
@@ -34,9 +36,9 @@ class ReturnOperationTest {
         operation.apply(FRUIT_ORANGE, QUANTITY_5, storage);
         operation.apply(FRUIT_GRAPES, QUANTITY_5, storage);
 
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity("orange"));
-        Assertions.assertEquals(QUANTITY_25, storage.getQuantity("banana"));
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity("apple"));
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity("grapes"));
+        assertEquals(QUANTITY_20, storage.getQuantity("orange"));
+        assertEquals(QUANTITY_25, storage.getQuantity("banana"));
+        assertEquals(QUANTITY_20, storage.getQuantity("apple"));
+        assertEquals(QUANTITY_20, storage.getQuantity("grapes"));
     }
 }

@@ -1,11 +1,13 @@
 package core.basesyntax.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import core.basesyntax.basesyntax.db.StorageImpl;
 import core.basesyntax.basesyntax.service.ReportGenerator;
 import core.basesyntax.basesyntax.service.impl.ReportGeneratorImpl;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReportGeneratorImplTest {
@@ -22,10 +24,10 @@ class ReportGeneratorImplTest {
     private static final int QUANTITY_20 = 20;
     private static final int INDEX_0 = 0;
 
-    private static ReportGenerator generator;
+    private ReportGenerator generator;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         generator = new ReportGeneratorImpl();
     }
 
@@ -36,8 +38,8 @@ class ReportGeneratorImplTest {
 
         List<String> result = generator.generate(storage);
 
-        Assertions.assertEquals(HEADER, result.get(INDEX_0));
-        Assertions.assertTrue(result.contains(CONTAINS_10_APPLE));
+        assertEquals(HEADER, result.get(INDEX_0));
+        assertTrue(result.contains(CONTAINS_10_APPLE));
     }
 
     @Test
@@ -48,9 +50,9 @@ class ReportGeneratorImplTest {
 
         List<String> result = generator.generate(storage);
 
-        Assertions.assertEquals(EXPECTED_SIZE_3, result.size());
-        Assertions.assertTrue(result.contains(CONTAINS_20_BANANA));
-        Assertions.assertTrue(result.contains(CONTAINS_10_ORANGE));
+        assertEquals(EXPECTED_SIZE_3, result.size());
+        assertTrue(result.contains(CONTAINS_20_BANANA));
+        assertTrue(result.contains(CONTAINS_10_ORANGE));
     }
 
     @Test
@@ -58,7 +60,7 @@ class ReportGeneratorImplTest {
         StorageImpl storage = new StorageImpl();
         List<String> result = generator.generate(storage);
 
-        Assertions.assertEquals(EXPECTED_SIZE_1, result.size());
-        Assertions.assertEquals(HEADER, result.get(INDEX_0));
+        assertEquals(EXPECTED_SIZE_1, result.size());
+        assertEquals(HEADER, result.get(INDEX_0));
     }
 }

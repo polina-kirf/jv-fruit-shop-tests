@@ -3,11 +3,6 @@ package core.basesyntax.basesyntax.model;
 import java.util.Objects;
 
 public class FruitTransaction {
-    private static final String CODE_B = "b";
-    private static final String CODE_S = "s";
-    private static final String CODE_P = "p";
-    private static final String CODE_R = "r";
-
     private final Operation operation;
     private final String fruit;
     private final int quantity;
@@ -49,10 +44,10 @@ public class FruitTransaction {
     }
 
     public enum Operation {
-        BALANCE(CODE_B),
-        SUPPLY(CODE_S),
-        PURCHASE(CODE_P),
-        RETURN(CODE_R);
+        BALANCE("b"),
+        SUPPLY("s"),
+        PURCHASE("p"),
+        RETURN("r");
 
         private final String code;
 

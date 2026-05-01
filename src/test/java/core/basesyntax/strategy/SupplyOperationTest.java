@@ -1,10 +1,11 @@
 package core.basesyntax.strategy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import core.basesyntax.basesyntax.db.StorageImpl;
 import core.basesyntax.basesyntax.strategy.OperationHandler;
 import core.basesyntax.basesyntax.strategy.SupplyOperation;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SupplyOperationTest {
@@ -21,10 +22,10 @@ class SupplyOperationTest {
     private static final int QUANTITY_25 = 25;
     private static final int QUANTITY_35 = 35;
 
-    private static OperationHandler operation;
+    private OperationHandler operation;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         operation = new SupplyOperation();
     }
 
@@ -36,9 +37,9 @@ class SupplyOperationTest {
         operation.apply(FRUIT_APPLE, QUANTITY_20, storage);
         operation.apply(FRUIT_BANANA, QUANTITY_25, storage);
 
-        Assertions.assertEquals(QUANTITY_15, storage.getQuantity(FRUIT_ORANGE));
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_APPLE));
-        Assertions.assertEquals(QUANTITY_25, storage.getQuantity(FRUIT_BANANA));
+        assertEquals(QUANTITY_15, storage.getQuantity(FRUIT_ORANGE));
+        assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_APPLE));
+        assertEquals(QUANTITY_25, storage.getQuantity(FRUIT_BANANA));
     }
 
     @Test
@@ -50,8 +51,8 @@ class SupplyOperationTest {
         operation.apply(FRUIT_TANGERINE, QUANTITY_20, storage);
         operation.apply(FRUIT_GRAPES, QUANTITY_15, storage);
 
-        Assertions.assertEquals(QUANTITY_35, storage.getQuantity(FRUIT_TANGERINE));
-        Assertions.assertEquals(QUANTITY_25, storage.getQuantity(FRUIT_GRAPES));
+        assertEquals(QUANTITY_35, storage.getQuantity(FRUIT_TANGERINE));
+        assertEquals(QUANTITY_25, storage.getQuantity(FRUIT_GRAPES));
     }
 
     @Test
@@ -60,6 +61,6 @@ class SupplyOperationTest {
         storage.setQuantity(FRUIT_MANGO, QUANTITY_10);
 
         operation.apply(FRUIT_MANGO, QUANTITY_0, storage);
-        Assertions.assertEquals(QUANTITY_10, storage.getQuantity(FRUIT_MANGO));
+        assertEquals(QUANTITY_10, storage.getQuantity(FRUIT_MANGO));
     }
 }

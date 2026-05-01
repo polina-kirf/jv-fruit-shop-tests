@@ -1,18 +1,20 @@
 package core.basesyntax.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.basesyntax.model.FruitTransaction;
 import core.basesyntax.basesyntax.service.Parser;
 import core.basesyntax.basesyntax.service.impl.ParserImpl;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ParserImplTest {
-    private static Parser parser;
+    private Parser parser;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         parser = new ParserImpl();
     }
 
@@ -28,9 +30,9 @@ class ParserImplTest {
 
         List<FruitTransaction> result = parser.parse(input);
 
-        Assertions.assertEquals(4, result.size());
-        Assertions.assertEquals("banana", result.get(0).getFruit());
-        Assertions.assertEquals("grapes", result.get(1).getFruit());
+        assertEquals(4, result.size());
+        assertEquals("banana", result.get(0).getFruit());
+        assertEquals("grapes", result.get(1).getFruit());
     }
 
     @Test
@@ -39,7 +41,7 @@ class ParserImplTest {
                 "type,fruit,quantity",
                 "x,apple,12"
         );
-        Assertions.assertThrows(RuntimeException.class, () -> parser.parse(input));
+        assertThrows(RuntimeException.class, () -> parser.parse(input));
     }
 
     @Test
@@ -48,11 +50,11 @@ class ParserImplTest {
                 "type,fruit,quantity",
                 "p,orange"
         );
-        Assertions.assertThrows(RuntimeException.class, () -> parser.parse(input));
+        assertThrows(RuntimeException.class, () -> parser.parse(input));
     }
 
     @Test
     void parse_nullInput_notOk() {
-        Assertions.assertThrows(RuntimeException.class, () -> parser.parse(null));
+        assertThrows(RuntimeException.class, () -> parser.parse(null));
     }
 }

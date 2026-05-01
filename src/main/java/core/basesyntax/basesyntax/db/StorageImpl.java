@@ -22,4 +22,9 @@ public class StorageImpl implements Storage {
     public Map<String, Integer> getAll() {
         return new HashMap<>(data);
     }
+
+    @Override
+    public void clear() {
+        data.clear();
+    }
 }

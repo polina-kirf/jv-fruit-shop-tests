@@ -1,10 +1,12 @@
 package core.basesyntax.strategy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.basesyntax.db.StorageImpl;
 import core.basesyntax.basesyntax.strategy.OperationHandler;
 import core.basesyntax.basesyntax.strategy.PurchaseOperation;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PurchaseOperationTest {
@@ -22,10 +24,10 @@ class PurchaseOperationTest {
     private static final int QUANTITY_20 = 20;
     private static final int QUANTITY_30 = 30;
 
-    private static OperationHandler operation;
+    private OperationHandler operation;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         operation = new PurchaseOperation();
     }
 
@@ -39,9 +41,9 @@ class PurchaseOperationTest {
         operation.apply(FRUIT_APPLE, QUANTITY_6, storage);
         operation.apply(FRUIT_ORANGE, QUANTITY_5, storage);
 
-        Assertions.assertEquals(QUANTITY_4, storage.getQuantity(FRUIT_APPLE));
-        Assertions.assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_BANANA));
-        Assertions.assertEquals(QUANTITY_10, storage.getQuantity(FRUIT_ORANGE));
+        assertEquals(QUANTITY_4, storage.getQuantity(FRUIT_APPLE));
+        assertEquals(QUANTITY_20, storage.getQuantity(FRUIT_BANANA));
+        assertEquals(QUANTITY_10, storage.getQuantity(FRUIT_ORANGE));
     }
 
     @Test
@@ -50,7 +52,7 @@ class PurchaseOperationTest {
         storage.setQuantity(FRUIT_BANANA, QUANTITY_5);
 
         operation.apply(FRUIT_BANANA, QUANTITY_5, storage);
-        Assertions.assertEquals(QUANTITY_0, storage.getQuantity(FRUIT_BANANA));
+        assertEquals(QUANTITY_0, storage.getQuantity(FRUIT_BANANA));
     }
 
     @Test
@@ -58,7 +60,7 @@ class PurchaseOperationTest {
         StorageImpl storage = new StorageImpl();
         storage.setQuantity(FRUIT_GRAPES, QUANTITY_4);
 
-        Assertions.assertThrows(RuntimeException.class,
+        assertThrows(RuntimeException.class,
                 () -> operation.apply(FRUIT_GRAPES, QUANTITY_5, storage));
     }
 
@@ -68,7 +70,7 @@ class PurchaseOperationTest {
         storage.setQuantity(FRUIT_APPLE, QUANTITY_20);
         storage.setQuantity(FRUIT_BANANA, QUANTITY_30);
 
-        Assertions.assertThrows(RuntimeException.class,
+        assertThrows(RuntimeException.class,
                 () -> operation.apply(NOT_FRUIT_TOMATO, QUANTITY_5, storage));
     }
 }
