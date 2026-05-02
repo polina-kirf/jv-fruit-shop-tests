@@ -9,16 +9,16 @@ import core.basesyntax.basesyntax.service.impl.FileReaderImpl;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class FileReaderImplTest {
     private static final int EXPECTED_SIZE = 2;
 
-    private FileReader reader;
+    private static FileReader reader;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         reader = new FileReaderImpl();
     }
 

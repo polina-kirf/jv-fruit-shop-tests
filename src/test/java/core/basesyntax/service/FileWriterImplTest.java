@@ -10,14 +10,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class FileWriterImplTest {
-    private FileWriter writer;
+    private static FileWriter writer;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         writer = new FileWriterImpl();
     }
 
